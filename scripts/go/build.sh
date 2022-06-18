@@ -77,7 +77,7 @@ find . -name "*.go" ! -name "*.pb.go" -type f | grep -v vendor | grep -v "_test.
 
 echo "Check error handling"
 # shellcheck disable=SC2046
-errcheck -blank -asserts $(go list ./...)
+errcheck -blank $(go list ./...)
 
 echo "Static check"
 # shellcheck disable=SC2046
