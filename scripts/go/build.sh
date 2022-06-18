@@ -55,7 +55,7 @@ wait
 
 
 echo "Ensure all code is formatted"
-find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} gofumpt -s -w {}
+find . -path '*/vendor/*' -prune -o -name '*.go' ! -name "*.pb.go" -type f -print0 | xargs -0 -I {} gofumpt -s -w {}
 
 echo "Ensure all code is linted"
 go list ./... | grep -v vendor | grep -v proto | xargs golint --set_exit_status=true
@@ -64,16 +64,16 @@ echo "Ensure all code is vetted"
 go list ./... | grep -v vendor | grep -v proto | xargs go vet
 
 echo "Ensure all imports are updated"
-find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} goimports -w -local "github.com/sumit-tembe" {}
+find . -path '*/vendor/*' -prune -o -name '*.go' ! -name "*.pb.go" -type f -print0 | xargs -0 -I {} goimports -w -local "github.com/sumit-tembe" {}
 
 # echo "Ensure imports grouping"
-# find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} impi --local "github.com/sumit-tembe/luraproject" --scheme stdThirdPartyLocal {}
+# find . -path '*/vendor/*' -prune -o -name '*.go' ! -name "*.pb.go" -type f -print0 | xargs -0 -I {} impi --local "github.com/sumit-tembe/luraproject" --scheme stdThirdPartyLocal {}
 
 echo "Spell check"
-find . -path '*/vendor/*' -prune -o -name '*.go' -type f | grep -v vendor | xargs misspell -error
+find . -path '*/vendor/*' -prune -o -name '*.go' ! -name "*.pb.go" -type f | grep -v vendor | xargs misspell -error
 
 echo "Check complexity"
-find . -name "*.go" -type f | grep -v vendor | grep -v "_test.go" | xargs gocyclo -over 15
+find . -name "*.go" ! -name "*.pb.go" -type f | grep -v vendor | grep -v "_test.go" | xargs gocyclo -over 15
 
 echo "Check error handling"
 # shellcheck disable=SC2046
