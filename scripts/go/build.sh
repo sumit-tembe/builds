@@ -64,7 +64,7 @@ echo "Ensure all code is vetted"
 go list ./... | grep -v vendor | grep -v proto | xargs go vet
 
 echo "Ensure all imports are updated"
-find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} goimports -w -local "github.com/sumit-tembe/luraproject" {}
+find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} goimports -w -local "github.com/sumit-tembe" {}
 
 # echo "Ensure imports grouping"
 # find . -path '*/vendor/*' -prune -o -name '*.go' -type f -print0 | xargs -0 -I {} impi --local "github.com/sumit-tembe/luraproject" --scheme stdThirdPartyLocal {}
